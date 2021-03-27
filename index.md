@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="dairy.js" type="text/javascript"></script>
+    <link href="dairy.css" rel="stylesheet" type="text/css">
+    <title> &#128046; Dairy Website </title>
+</head>
+
+<body style="background-color:antiquewhite; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 
+'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+
+    <!-- Tab access at the top of the page  -->
+    <div id="Tabs">
+        <table id="tableTab" width="100%">
+            <tr id style="cursor: pointer;">
+                <td id="tabbies">
+                    <img src="https://image.freepik.com/free-psd/place-your-design-here_23-2148629067.jpg" width="100" height="100" alt="logo here">
+                    <td class="icons" id="homeTab" tabindex="-1" onclick="home();" alt="Home page">&#x1F3E0</td>
+                    <td class="icons" id="productTab" tabindex="-1" onclick="shopping();" alt="Product page">&#x1f6d2</td>
+                    <td class="icons" id="mapTab" tabindex="-1" onclick="map();" alt="Location page">&#x1F5FA</td>
+                    <td class="icons" id="newsTabb" tabindex="-1" onclick="newsTab();" alt="News page">&#x1f4f0</td>
+                    <td class="icons" id="reviewTab" tabindex="-1" onclick="reviews();" alt="Comment page">&#x1F4D6</td>
+                    <td class="icons" id="registerTab" tabindex="-1" onclick="register();" alt="Register">&#x1F4DC</td>
+                    <td class="icons" id="logInTab" tabindex="-1" onclick="logIn();" alt="Register">&#x1F4DB</td>
+
+
+            </tr>
+        </table>
+    </div>
+    <div id="logStatus"> Logged out <button onclick=logIn()>Login</button>
+    </div>
+
+    <!-- Home tab, also the picture is royalty free!!!  All the rest of the tabs are self explanatory! -->
+    <div id="home">
+        <h1 style="text-align: center; border: 8px dotted snow; "> &#10087; Dunedin Dairy &#9753; </h1>
+        <p1> Dunners get down and around for some well priced dairy products, food, and essientials. Support your local community today! <br>
+            <br>
+            <em>It is also worth noting that the local puppy called <strong> &#128054; Meeps &#128054; </strong> that
+                helps out is super <strong>adorable.</strong></em><br> Stop by and visit!</p1>
+        <br>
+        <img src="https://images.unsplash.com/photo-1560807707-8cc77767d783?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" width="300" height="400" alt="Picture of a cute pupper">
+    </div>
+
+    <div id="map" style="overflow-x: auto ; text-align:center; ">
+        <h1> &#127804; Location &#127804; </h1>
+        <table id="info">
+        </table>
+        <br>
+        <p1>
+            <img src="https://images.freeimages.com/images/large-previews/f17/world-map-1577937.jpg" width="500" height="500" alt="Map of Dundedin Dairy">
+        </p1>
+    </div>
+
+
+    <div id="reviews">
+
+        <body>
+            <h1 style="text-align: center;"> &#128150; Guest Book &#128150; </h1>
+            <p1> Leave a review down below! &#128140;</p1>
+            <p2> <br></p2>
+            <iframe id="iframeBook" src="/default.asp" width="80%" height="280" title="Comment Section"></iframe>
+            <br> Write your name here &nbsp &nbsp&nbsp &nbsp<input type="text" id="name"></input> <br> Write your comment here <input type="text" id="comment"> </input> <br>
+            <button onclick="commentButtonn()"> Comment</button>
+            <script>
+                function commentButtonn() {
+                    var comment1 = document.getElementById("comment").value
+                    var name1 = document.getElementById("name").value
+                    const fetchPromise =
+                        fetch("/default.asp" + name1, {
+                            headers: {
+                                "Content-Type": 'application/json',
+                            },
+                            method: "POST",
+                            body: JSON.stringify(comment1),
+                        })
+
+                }
+            </script>
+        </body>
+    </div>
+
+    <div id="register">
+
+        <body style="text-align: center;">
+            <h1 style="text-align: center;"> &#128150; Register &#128150; </h1>
+            <p1> Register down below! &#128140;</p1>
+            <p2> <br></p2>
+            <br> Enter Address: &nbsp &nbsp&nbsp &nbsp &nbsp <input type="text" id="email"> </input>
+            <br> Enter Username: &nbsp &nbsp&nbsp &nbsp<input type="text" id="username"></input> <br> Enter Password: &nbsp &nbsp&nbsp &nbsp <input type="text" id="password"> </input> <br>
+            <br>
+            <button onclick="commentButton()"> Register</button>
+            <script>
+                function commentButton() {
+                    var email = document.getElementById("email").value
+                    var username = document.getElementById("username").value
+                    var passw = document.getElementById("password").value
+                    document.getElementById("password").value = ""
+                    document.getElementById("username").value = ""
+                    document.getElementById("email").value = ""
+
+                    const fetchPromise =
+                        fetch("http://localhost:8188/DairyService.svc/register", {
+                            headers: {
+                                "Content-Type": 'application/json',
+                            },
+                            method: "POST",
+                            body: JSON.stringify({
+                                "Address": email,
+                                "Name": username,
+                                "Password": passw
+                            }),
+                        })
+
+                    const streamPromise = fetchPromise.then((response) => response.json());
+                    streamPromise.then((data) => alert(data))
+                    window.onload = register(true);
+                }
+            </script>
+        </body>
+    </div>
+
+    <div id="logIn">
+
+        <body style="text-align: center;">
+            <h1 style="text-align: center;"> &#128150; Log in! &#128150; </h1>
+            <p1> Log in and begin shopping! &#128140;</p1>
+            <p2> <br></p2>
+            <br> Enter Username: &nbsp &nbsp&nbsp &nbsp<input type="text" id="username1"></input> <br> Enter Password: &nbsp &nbsp&nbsp &nbsp <input type="text" id="password1"> </input> <br>
+            <br>
+            <button onclick="logInButton('true')"> Login</button>
+        </body>
+    </div>
+
+
+
+    <div id="news">
+
+        <body>
+            <h1 style="text-align: center;"> &#128420; News &#128420;</h1>
+            <table id="newslayout">
+            </table>
+        </body>
+    </div>
+
+    <div id="popUp">
+
+        <body>
+        </body>
+    </div>
+
+
+    <div id="shopping">
+
+        <body>
+            <h1 style="text-align: center;"> &#128046; Products &#128046; </h1>
+            <input type="text" onkeydown="searchBar();" style="width: 45%;" id="searchbar" placeholder="Search here...">
+            </inpput>
+            <br></br>
+            <table id="layoutProduct">
+            </table>
+        </body>
+    </div>
+</body>
+
+</html>
